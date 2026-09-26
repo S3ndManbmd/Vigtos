@@ -12,7 +12,8 @@ Página única e estática: `index.html` com CSS e JS embutidos. Sem build, sem 
 
 ## Antes de publicar
 
-1. **E-mail** — `contato@vigtos.com.br` aparece no rodapé. Busque por `contato@`.
+1. **E-mail (desligado)** — o e-mail do rodapé está comentado no `index.html`. Para religar, busque por `contato@`,
+   troque o endereço e tire a linha do comentário.
 2. **Endereço público** — as tags `canonical`, `og:url` e `og:image` apontam para `https://vigtos.com.br/`.
    Enquanto o domínio não estiver ativo, troque pelo endereço do GitHub Pages
    (`https://USUARIO.github.io/REPOSITORIO/`). O `og:image` precisa de URL absoluta, senão o LinkedIn não mostra a imagem.
