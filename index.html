@@ -329,24 +329,6 @@
       border-color: var(--cor-texto);
       background: var(--cor-borda);
     }
-    /* Sobre Azul Vetor: Carvão, como na versão mono da marca sobre azul */
-    .botao--escuro {
-      background: var(--carvao);
-      color: var(--vidro); /* 16,9:1 */
-    }
-    .botao--escuro:hover,
-    .botao--escuro:active {
-      background: var(--azul-profundo);
-    }
-    .botao--grande {
-      width: 100%;
-      min-height: 3.5rem;
-      padding: 1rem 1.75rem;
-      font-size: 1.125rem;
-    }
-    @media (min-width: 30rem) {
-      .botao--grande { width: auto; }
-    }
     .botao--compacto {
       min-height: 2.5rem;
       padding: 0.5rem 0.875rem;
@@ -984,18 +966,6 @@
       .formulario__status { grid-column: 1 / -1; }
     }
 
-    /* Alternativa: WhatsApp */
-    .oferta__acao { margin-top: 2rem; }
-    .oferta__alternativa {
-      margin: 0 0 0.75rem;
-      font-weight: var(--rotulo-peso);
-    }
-    .oferta__nota {
-      margin: 0.75rem 0 0;
-      font-size: 0.875rem;
-      color: var(--cor-texto-sec);
-    }
-
     @media (min-width: 48rem) {
       .ficha__linha {
         grid-template-columns: 8rem 1fr;
@@ -1066,8 +1036,7 @@
         <span class="logo__palavra">Vigtos</span>
       </a>
 
-      <a class="botao botao--primario botao--compacto" href="#diagnostico"
-         data-whatsapp="Olá! Vim pelo site e quero falar com a Vigtos sobre a plataforma de dados.">Falar com a Vigtos</a>
+      <a class="botao botao--primario botao--compacto" href="#form-diagnostico">Falar com a Vigtos</a>
     </div>
   </header>
 
@@ -1344,7 +1313,7 @@
             <input class="formulario__isca" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
 
             <h3 class="subtitulo formulario__titulo" id="formulario-titulo">Peça seu diagnóstico</h3>
-            <p class="formulario__apoio">Respondemos pelo e-mail ou WhatsApp que você informar.</p>
+            <p class="formulario__apoio">Respondemos pelo contato que você informar.</p>
 
             <div class="formulario__campos">
               <div class="campo">
@@ -1356,7 +1325,7 @@
                 <input id="f-email" name="email" type="email" autocomplete="email" required>
               </div>
               <div class="campo">
-                <label for="f-telefone">WhatsApp / telefone <span class="campo__opcional">(opcional)</span></label>
+                <label for="f-telefone">Telefone <span class="campo__opcional">(opcional)</span></label>
                 <input id="f-telefone" name="telefone" type="tel" autocomplete="tel" inputmode="tel">
               </div>
               <div class="campo">
@@ -1385,15 +1354,6 @@
               <p class="formulario__status" role="status" aria-live="polite"></p>
             </div>
           </form>
-
-          <div class="oferta__acao">
-            <p class="oferta__alternativa">Prefere conversar agora?</p>
-            <!-- Sem JavaScript, cai no e-mail (troque aqui também se mudar o endereço do rodapé) -->
-            <a class="botao botao--escuro"
-               href="mailto:contato@vigtos.com.br?subject=Diagn%C3%B3stico%20de%20dados"
-               data-whatsapp="Olá! Quero agendar o Diagnóstico de dados da Vigtos (2 semanas). Pode me passar os próximos passos?">Chamar no WhatsApp</a>
-            <p class="oferta__nota">Abre uma conversa no WhatsApp com a mensagem pronta.</p>
-          </div>
         </div>
       </div>
     </section>
@@ -1412,7 +1372,7 @@
       </div>
 
       <div class="rodape__info">
-        <!-- E-mail de contato: troque aqui e no mailto do botão da oferta -->
+        <!-- E-mail de contato: troque aqui -->
         <a class="rodape__link" href="mailto:contato@vigtos.com.br">contato@vigtos.com.br</a>
         <p>© <span class="dado" data-ano>2026</span> Vigtos</p>
       </div>
@@ -1420,19 +1380,6 @@
   </footer>
 
   <script>
-    /* ===== CONTATO — troque o número só aqui =====
-       55 + DDD + número, só dígitos. Ex.: 5511912345678 */
-    const WHATSAPP = '55DDDNUMERO';
-
-    /* Todo link com data-whatsapp="mensagem" vira https://wa.me/NUMERO?text=mensagem.
-       Sem JavaScript, o href original do HTML continua valendo (âncora para a oferta). */
-    document.querySelectorAll('[data-whatsapp]').forEach((link) => {
-      link.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(link.dataset.whatsapp);
-      link.target = '_blank';
-      link.rel = 'noopener';
-      link.insertAdjacentHTML('beforeend', '<span class="sr-only"> (abre o WhatsApp)</span>');
-    });
-
     /* Formulário: envia ao Web3Forms sem sair da página.
        A chave fica no <input name="access_key"> do formulário, na seção da oferta. */
     const form = document.getElementById('form-diagnostico');
@@ -1446,7 +1393,7 @@
 
         /* Chave do Web3Forms é um UUID; qualquer outra coisa (ex.: o marcador) = não configurado */
         if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(form.elements.access_key.value)) {
-          avisar('erro', 'Formulário ainda não configurado. Use o WhatsApp abaixo.');
+          avisar('erro', 'Formulário ainda não configurado.');
           return;
         }
 
@@ -1463,7 +1410,7 @@
           form.reset();
           avisar('ok', 'Pedido recebido. Vamos responder pelo contato que você informou.');
         } catch (erro) {
-          avisar('erro', 'Não foi possível enviar agora. Tente de novo ou chame no WhatsApp.');
+          avisar('erro', 'Não foi possível enviar agora. Tente de novo em instantes.');
         } finally {
           botao.disabled = false;
         }

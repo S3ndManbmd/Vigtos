@@ -12,17 +12,15 @@ Página única e estática: `index.html` com CSS e JS embutidos. Sem build, sem 
 
 ## Antes de publicar
 
-1. **WhatsApp** — no topo do `<script>` do `index.html`:
-   `const WHATSAPP = '55DDDNUMERO';` → 55 + DDD + número, só dígitos (ex.: `5511912345678`).
-2. **E-mail** — `contato@vigtos.com.br` aparece em dois lugares: rodapé e `mailto` do botão da oferta. Busque por `contato@`.
-3. **Endereço público** — as tags `canonical`, `og:url` e `og:image` apontam para `https://vigtos.com.br/`.
+1. **E-mail** — `contato@vigtos.com.br` aparece no rodapé. Busque por `contato@`.
+2. **Endereço público** — as tags `canonical`, `og:url` e `og:image` apontam para `https://vigtos.com.br/`.
    Enquanto o domínio não estiver ativo, troque pelo endereço do GitHub Pages
    (`https://USUARIO.github.io/REPOSITORIO/`). O `og:image` precisa de URL absoluta, senão o LinkedIn não mostra a imagem.
-4. **Formulário (Web3Forms, gratuito)** — em [web3forms.com](https://web3forms.com), informe o e-mail que vai
+3. **Formulário (Web3Forms, gratuito)** — em [web3forms.com](https://web3forms.com), informe o e-mail que vai
    receber os pedidos; a chave de acesso chega nesse e-mail. No `index.html`, troque `SUA_CHAVE_WEB3FORMS`
    (busque por esse texto) pela chave. A chave pode ficar pública no HTML — ela só permite *enviar* para o seu e-mail.
-   Enquanto não trocar, o formulário avisa "ainda não configurado" e indica o WhatsApp.
-5. **Analytics (opcional)** — o trecho do Cloudflare Web Analytics está comentado no fim do `<body>`, com o passo a passo.
+   Enquanto não trocar, o formulário avisa "ainda não configurado". Todo botão de contato leva a este formulário.
+4. **Analytics (opcional)** — o trecho do Cloudflare Web Analytics está comentado no fim do `<body>`, com o passo a passo.
 
 ## Publicar no GitHub Pages
 
