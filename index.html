@@ -143,7 +143,17 @@
 
     /* ── Temas de seção: alternam Vidro / Carvão / Azul ────── */
     .tema-claro {
-      /* herda os papéis do :root */
+      /* Repete os papéis do :root para funcionar também aninhado (ex.: formulário dentro da oferta azul) */
+      --cor-fundo:           var(--vidro);
+      --cor-texto:           var(--carvao);
+      --cor-texto-sec:       var(--aco);
+      --cor-borda:           var(--linha);
+      --cor-borda-forte:     var(--aco);
+      --cor-destaque:        var(--azul-vetor);
+      --cor-destaque-texto:  var(--azul-profundo);
+      --cor-foco:            var(--azul-profundo);
+      --simbolo-cor-2:       var(--azul-vetor);
+      --simbolo-opacidade-1: 1;
       background: var(--cor-fundo);
       color: var(--cor-texto);
     }
@@ -897,7 +907,89 @@
       margin-top: 0.1875rem; /* centra na primeira linha do subtítulo (30px) */
     }
 
+    /* Formulário (Web3Forms): cartão Vidro dentro da oferta */
+    .formulario {
+      margin-top: 2rem;
+      padding: 1.5rem 1.25rem;
+      border-radius: var(--raio);
+    }
+    .formulario__titulo { margin-bottom: 0.25rem; }
+    .formulario__apoio {
+      margin: 0 0 1.5rem;
+      color: var(--cor-texto-sec);
+    }
+    .formulario__campos {
+      display: grid;
+      gap: 1rem;
+    }
+    .campo {
+      display: grid;
+      gap: 0.375rem;
+      align-content: start;
+    }
+    .campo label {
+      font-size: 0.875rem;
+      font-weight: var(--rotulo-peso);
+    }
+    .campo__opcional {
+      font-weight: var(--corpo-peso);
+      color: var(--cor-texto-sec);
+    }
+    .campo input,
+    .campo select {
+      width: 100%;
+      min-height: 2.75rem;
+      padding: 0.625rem 0.75rem;
+      border: 1px solid var(--cor-borda-forte); /* Aço sobre Vidro: 5,3:1 */
+      border-radius: var(--raio);
+      background: var(--vidro);
+      color: var(--cor-texto);
+      font: inherit;
+    }
+    .campo input:user-invalid,
+    .campo select:user-invalid {
+      border-color: var(--carvao);
+      border-width: 2px;
+    }
+    /* Armadilha para robôs (Web3Forms): invisível para pessoas e leitores de tela */
+    .formulario__isca { display: none; }
+
+    .formulario__rodape {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .formulario__privacidade {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--cor-texto-sec);
+    }
+    .formulario__status {
+      margin: 0;
+      font-weight: var(--rotulo-peso);
+    }
+    .formulario__status:empty { display: none; }
+    .formulario__status[data-estado="erro"] { color: var(--carvao); }
+    .formulario__status[data-estado="ok"]   { color: var(--azul-profundo); }
+    .formulario .botao[disabled] { opacity: 0.6; cursor: progress; }
+
+    @media (min-width: 40rem) {
+      .formulario { padding: 2rem; }
+      .formulario__campos { grid-template-columns: 1fr 1fr; }
+      .formulario__rodape {
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        column-gap: 1.5rem;
+      }
+      .formulario__status { grid-column: 1 / -1; }
+    }
+
+    /* Alternativa: WhatsApp */
     .oferta__acao { margin-top: 2rem; }
+    .oferta__alternativa {
+      margin: 0 0 0.75rem;
+      font-weight: var(--rotulo-peso);
+    }
     .oferta__nota {
       margin: 0.75rem 0 0;
       font-size: 0.875rem;
@@ -1240,11 +1332,66 @@
             </div>
           </dl>
 
+          <!-- FORMULÁRIO (Web3Forms, gratuito, sem backend)
+               Troque SUA_CHAVE_WEB3FORMS pela chave que chega no seu e-mail ao se cadastrar em web3forms.com.
+               Os envios chegam no e-mail usado no cadastro. -->
+          <form class="formulario tema-claro" id="form-diagnostico"
+                action="https://api.web3forms.com/submit" method="POST"
+                aria-labelledby="formulario-titulo">
+            <input type="hidden" name="access_key" value="c6c5abe2-5cb9-4d60-9e07-de25badf02d8">
+            <input type="hidden" name="subject" value="Novo pedido de diagnóstico — site Vigtos">
+            <input type="hidden" name="from_name" value="Site Vigtos">
+            <input class="formulario__isca" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
+
+            <h3 class="subtitulo formulario__titulo" id="formulario-titulo">Peça seu diagnóstico</h3>
+            <p class="formulario__apoio">Respondemos pelo e-mail ou WhatsApp que você informar.</p>
+
+            <div class="formulario__campos">
+              <div class="campo">
+                <label for="f-nome">Nome</label>
+                <input id="f-nome" name="nome" type="text" autocomplete="name" required>
+              </div>
+              <div class="campo">
+                <label for="f-email">E-mail</label>
+                <input id="f-email" name="email" type="email" autocomplete="email" required>
+              </div>
+              <div class="campo">
+                <label for="f-telefone">WhatsApp / telefone <span class="campo__opcional">(opcional)</span></label>
+                <input id="f-telefone" name="telefone" type="tel" autocomplete="tel" inputmode="tel">
+              </div>
+              <div class="campo">
+                <label for="f-empresa">Empresa</label>
+                <input id="f-empresa" name="empresa" type="text" autocomplete="organization" required>
+              </div>
+              <div class="campo">
+                <label for="f-cargo">Cargo <span class="campo__opcional">(opcional)</span></label>
+                <input id="f-cargo" name="cargo" type="text" autocomplete="organization-title">
+              </div>
+              <div class="campo">
+                <label for="f-situacao">Situação atual</label>
+                <select id="f-situacao" name="situacao" required>
+                  <option value="">Escolha uma opção</option>
+                  <option>Sem base estruturada</option>
+                  <option>ERP em uso com dados dispersos</option>
+                  <option>ERP e BI consolidados</option>
+                  <option>Não sei dizer</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="formulario__rodape">
+              <button class="botao botao--primario" type="submit">Enviar pedido</button>
+              <p class="formulario__privacidade">Usamos seus dados só para responder a este pedido.</p>
+              <p class="formulario__status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+
           <div class="oferta__acao">
+            <p class="oferta__alternativa">Prefere conversar agora?</p>
             <!-- Sem JavaScript, cai no e-mail (troque aqui também se mudar o endereço do rodapé) -->
-            <a class="botao botao--escuro botao--grande"
+            <a class="botao botao--escuro"
                href="mailto:contato@vigtos.com.br?subject=Diagn%C3%B3stico%20de%20dados"
-               data-whatsapp="Olá! Quero agendar o Diagnóstico de dados da Vigtos (2 semanas). Pode me passar os próximos passos?">Quero meu diagnóstico</a>
+               data-whatsapp="Olá! Quero agendar o Diagnóstico de dados da Vigtos (2 semanas). Pode me passar os próximos passos?">Chamar no WhatsApp</a>
             <p class="oferta__nota">Abre uma conversa no WhatsApp com a mensagem pronta.</p>
           </div>
         </div>
@@ -1285,6 +1432,43 @@
       link.rel = 'noopener';
       link.insertAdjacentHTML('beforeend', '<span class="sr-only"> (abre o WhatsApp)</span>');
     });
+
+    /* Formulário: envia ao Web3Forms sem sair da página.
+       A chave fica no <input name="access_key"> do formulário, na seção da oferta. */
+    const form = document.getElementById('form-diagnostico');
+    if (form) {
+      const status = form.querySelector('.formulario__status');
+      const botao = form.querySelector('button[type="submit"]');
+      const avisar = (estado, texto) => { status.dataset.estado = estado; status.textContent = texto; };
+
+      form.addEventListener('submit', async (evento) => {
+        evento.preventDefault();
+
+        /* Chave do Web3Forms é um UUID; qualquer outra coisa (ex.: o marcador) = não configurado */
+        if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(form.elements.access_key.value)) {
+          avisar('erro', 'Formulário ainda não configurado. Use o WhatsApp abaixo.');
+          return;
+        }
+
+        botao.disabled = true;
+        avisar('enviando', 'Enviando…');
+        try {
+          const resposta = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(Object.fromEntries(new FormData(form)))
+          });
+          const retorno = await resposta.json();
+          if (!retorno.success) throw new Error(retorno.message);
+          form.reset();
+          avisar('ok', 'Pedido recebido. Vamos responder pelo contato que você informou.');
+        } catch (erro) {
+          avisar('erro', 'Não foi possível enviar agora. Tente de novo ou chame no WhatsApp.');
+        } finally {
+          botao.disabled = false;
+        }
+      });
+    }
 
     /* Ano do rodapé sempre atual (o HTML traz 2026 como reserva) */
     document.querySelectorAll('[data-ano]').forEach((el) => {

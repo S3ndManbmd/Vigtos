@@ -18,7 +18,11 @@ Página única e estática: `index.html` com CSS e JS embutidos. Sem build, sem 
 3. **Endereço público** — as tags `canonical`, `og:url` e `og:image` apontam para `https://vigtos.com.br/`.
    Enquanto o domínio não estiver ativo, troque pelo endereço do GitHub Pages
    (`https://USUARIO.github.io/REPOSITORIO/`). O `og:image` precisa de URL absoluta, senão o LinkedIn não mostra a imagem.
-4. **Analytics (opcional)** — o trecho do Cloudflare Web Analytics está comentado no fim do `<body>`, com o passo a passo.
+4. **Formulário (Web3Forms, gratuito)** — em [web3forms.com](https://web3forms.com), informe o e-mail que vai
+   receber os pedidos; a chave de acesso chega nesse e-mail. No `index.html`, troque `SUA_CHAVE_WEB3FORMS`
+   (busque por esse texto) pela chave. A chave pode ficar pública no HTML — ela só permite *enviar* para o seu e-mail.
+   Enquanto não trocar, o formulário avisa "ainda não configurado" e indica o WhatsApp.
+5. **Analytics (opcional)** — o trecho do Cloudflare Web Analytics está comentado no fim do `<body>`, com o passo a passo.
 
 ## Publicar no GitHub Pages
 
