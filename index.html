@@ -1,0 +1,1306 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vigtos — Plataforma de dados white label</title>
+  <meta name="description" content="Plataforma de dados white label: base unificada, painéis de KPI, análise por pergunta, envio automático e consulta pelo WhatsApp — com a marca da sua empresa.">
+  <meta name="theme-color" content="#0C1116">
+
+  <!-- Enquanto o domínio não estiver ativo, troque vigtos.com.br pelo endereço do GitHub Pages
+       (https://USUARIO.github.io/REPOSITORIO/). A imagem do og:image precisa de URL absoluta. -->
+  <link rel="canonical" href="https://vigtos.com.br/">
+
+  <!-- Open Graph (LinkedIn, WhatsApp, Slack) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Vigtos">
+  <meta property="og:url" content="https://vigtos.com.br/">
+  <meta property="og:title" content="A estrutura de dados da sua empresa — com a sua marca.">
+  <meta property="og:description" content="Base unificada, painéis de KPI, análise por pergunta, envio automático e consulta pelo WhatsApp. O cliente usa com a marca dele; a Vigtos sustenta a tecnologia.">
+  <meta property="og:image" content="https://vigtos.com.br/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logotipo Vigtos e a frase: a estrutura de dados da sua empresa, com a sua marca.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon: o ícone de app da marca (fundo Carvão, chevrons Vidro + Azul Vetor),
+       com respiro de ½ altura do símbolo em volta -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-14 -16.34 60.67 60.67'%3E%3Crect x='-14' y='-16.34' width='60.67' height='60.67' fill='%230C1116'/%3E%3Cpolygon fill='%23EEF2F7' points='0,0 8.17,0 18.66,14 8.17,28 0,28 10.49,14'/%3E%3Cpolygon fill='%232F6BFF' points='14.01,0 22.18,0 32.67,14 22.18,28 14.01,28 24.5,14'/%3E%3C/svg%3E">
+  <!-- iOS não aceita SVG na tela de início: mesmo desenho do favicon em PNG 180×180 -->
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Public+Sans:wght@400;600&family=Sora:wght@600;800&display=swap">
+
+  <style>
+    /* =========================================================
+       TOKENS
+       ========================================================= */
+    :root {
+      /* ── Paleta da marca ─────────────────────────────────── */
+      --azul-vetor:    #2F6BFF; /* marca, botões, destaques */
+      --azul-profundo: #1F4FD1; /* hover e estado pressionado */
+      --azul-nevoa:    #E3ECFF; /* fundo de destaque */
+      --menta:         #17C9A0; /* SÓ variação positiva em dado. Nunca botão, nunca símbolo */
+      --carvao:        #0C1116; /* texto sobre claro; fundo das seções escuras */
+      --aco:           #5A6472; /* texto secundário (só sobre fundo claro) */
+      --linha:         #D7DFE8; /* bordas e divisores */
+      --vidro:         #EEF2F7; /* fundo claro; também o "branco" de todo texto claro (sobre Carvão, Azul e botões) */
+
+      /* ── Papéis de cor ───────────────────────────────────
+         Valores do tema claro (Vidro). As classes .tema-* redefinem
+         estes papéis; os componentes só usam --cor-*.            */
+      --cor-fundo:          var(--vidro);
+      --cor-texto:          var(--carvao);    /* 16,9:1 */
+      --cor-texto-sec:      var(--aco);       /*  5,3:1 */
+      --cor-borda:          var(--linha);
+      --cor-borda-forte:    var(--aco);       /* borda que carrega sentido, ex.: tracejado */
+      --cor-destaque:       var(--azul-vetor);    /* grafismo, número grande, texto ≥ 24px */
+      --cor-destaque-texto: var(--azul-profundo); /* texto pequeno em azul: Vetor sobre Vidro dá 4,0:1 */
+      --cor-foco:           var(--azul-profundo);
+
+      /* ── Famílias ────────────────────────────────────────── */
+      --fonte-display: "Sora", "Segoe UI", system-ui, sans-serif;
+      --fonte-texto:   "Public Sans", "Segoe UI", system-ui, sans-serif;
+      --fonte-dado:    "DM Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+      /* ── Escala tipográfica ──────────────────────────────── */
+      /* Display: Sora 800, 48 → 64px */
+      --display-tamanho:     clamp(3rem, 2rem + 4vw, 4rem);
+      --display-peso:        800;
+      --display-espacamento: -0.045em;
+      --display-altura:      1.04;
+
+      /* Título de seção: Sora 800, 32px */
+      --titulo-tamanho:      2rem;
+      --titulo-peso:         800;
+      --titulo-espacamento:  -0.035em;
+      --titulo-altura:       1.12;
+
+      /* Subtítulo: Sora 600, 24px */
+      --subtitulo-tamanho:     1.5rem;
+      --subtitulo-peso:        600;
+      --subtitulo-espacamento: -0.02em;
+      --subtitulo-altura:      1.25;
+
+      /* Corpo: Public Sans 400, 16px */
+      --corpo-tamanho: 1rem;
+      --corpo-peso:    400;
+      --corpo-altura:  1.55;
+
+      /* Botão: Public Sans 600 */
+      --botao-tamanho: 1rem;
+      --botao-peso:    600;
+
+      /* Rótulo: Public Sans 600, 12px, caixa alta */
+      --rotulo-tamanho:     0.75rem;
+      --rotulo-peso:        600;
+      --rotulo-espacamento: 0.14em;
+
+      /* Dado: DM Mono 500, todo número e KPI */
+      --dado-peso: 500;
+
+      /* Palavra "Vigtos" ao lado do símbolo: Sora 800 */
+      --logo-peso:        800;
+      --logo-espacamento: -0.03em;
+
+      /* ── Logotipo ────────────────────────────────────────── */
+      --simbolo-altura: 1.5rem;                          /* 24px no mobile */
+      --simbolo-respiro: calc(var(--simbolo-altura) / 2); /* área de respiro = ½ altura do símbolo */
+      /* Lockup horizontal, medido na arte oficial (H = altura do símbolo):
+         palavra com corpo = H (altura de caixa alta 0,74H) e vão de 0,45H até o símbolo. */
+      --logo-palavra-tamanho: var(--simbolo-altura);
+      --logo-vao:             calc(var(--simbolo-altura) * 0.45);
+      /* Cores do símbolo. O chevron 1 usa currentColor; o 2 é Azul Vetor.
+         Sobre Azul Vetor entra a versão monocromática da arte:
+         chevron 1 em Carvão a 55% e chevron 2 em Carvão. */
+      --simbolo-cor-2:        var(--azul-vetor);
+      --simbolo-opacidade-1:  1;
+
+      /* ── Layout e ritmo ──────────────────────────────────── */
+      --gutter:        1rem;    /* 16px de margem lateral no mobile */
+      --largura-max:   72rem;   /* 1152px */
+      --medida-texto:  38rem;   /* ~65 caracteres por linha */
+      --secao-espaco:  4rem;    /* respiro vertical das seções */
+      --altura-topo:   3.5rem;  /* topo fixo */
+      --raio:          4px;
+      --foco-largura:  3px;
+      --foco-offset:   3px;
+      --transicao:     160ms ease-out;
+    }
+
+    @media (min-width: 48rem) {
+      :root {
+        --simbolo-altura: 1.75rem; /* 28px, tamanho nativo do SVG */
+        --gutter:         2rem;
+        --secao-espaco:   6rem;
+        --altura-topo:    4.5rem;
+      }
+    }
+
+    /* ── Temas de seção: alternam Vidro / Carvão / Azul ────── */
+    .tema-claro {
+      /* herda os papéis do :root */
+      background: var(--cor-fundo);
+      color: var(--cor-texto);
+    }
+
+    .tema-escuro {
+      --cor-fundo:          var(--carvao);
+      --cor-texto:          var(--vidro);                /* 16,9:1 */
+      --cor-texto-sec:      var(--linha);                /* 14,1:1 — Aço aqui daria 3,2:1 */
+      --cor-borda:          rgb(215 223 232 / 0.18);     /* Linha translúcida, só divisor decorativo */
+      --cor-borda-forte:    var(--linha);
+      --cor-destaque:       var(--azul-vetor);           /* 4,2:1 — ok para grafismo e texto ≥ 24px */
+      --cor-destaque-texto: var(--azul-nevoa);           /* texto pequeno "azulado" legível: 16,0:1 */
+      --cor-foco:           var(--azul-nevoa);
+      background: var(--cor-fundo);
+      color: var(--cor-texto);
+    }
+
+    .tema-azul {
+      --cor-fundo:          var(--azul-vetor);
+      --cor-texto:          var(--vidro);                /* 4,0:1 — mais suave que branco puro (4,5:1), escolha do cliente */
+      --cor-texto-sec:      var(--vidro);
+      --cor-borda:          rgb(238 242 247 / 0.32);     /* Vidro translúcido */
+      --cor-borda-forte:    var(--vidro);
+      --cor-destaque:       var(--vidro);
+      --cor-destaque-texto: var(--vidro);
+      --cor-foco:           var(--vidro);
+      --simbolo-cor-2:       var(--carvao); /* versão mono da marca sobre azul */
+      --simbolo-opacidade-1: 0.55;
+      background: var(--cor-fundo);
+      color: var(--cor-texto);
+    }
+
+    /* =========================================================
+       BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-padding-top: var(--altura-topo); /* âncoras não ficam sob o topo fixo */
+      background: var(--carvao);              /* o "elástico" do iOS mostra Carvão, igual ao topo e ao rodapé */
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--fonte-texto);
+      font-size: var(--corpo-tamanho);
+      font-weight: var(--corpo-peso);
+      line-height: var(--corpo-altura);
+      background: var(--vidro);
+      color: var(--carvao);
+    }
+
+    :focus-visible {
+      outline: var(--foco-largura) solid var(--cor-foco);
+      outline-offset: var(--foco-offset);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .sem-quebra { white-space: nowrap; } /* ex.: "e-mail" não quebra no hífen */
+
+    .secao { padding-block: var(--secao-espaco); }
+
+    .container {
+      width: 100%;
+      max-width: calc(var(--largura-max) + 2 * var(--gutter));
+      margin-inline: auto;
+      padding-inline: var(--gutter);
+    }
+
+    /* =========================================================
+       COMPONENTES
+       ========================================================= */
+
+    /* ── Pular para o conteúdo: aparece só com foco de teclado ── */
+    .pular {
+      position: absolute;
+      top: 0.5rem;
+      left: var(--gutter);
+      z-index: 200;
+      padding: 0.75rem 1rem;
+      background: var(--vidro);
+      color: var(--carvao);
+      font-weight: var(--botao-peso);
+      text-decoration: none;
+      border-radius: var(--raio);
+      transform: translateY(calc(-100% - 1rem));
+    }
+    .pular:focus-visible {
+      transform: none;
+      outline-color: var(--azul-vetor);
+    }
+
+    /* ── Logotipo: símbolo SVG + palavra em texto ────────────
+       O padding garante a área de respiro (½ altura do símbolo);
+       a margem negativa devolve o alinhamento com a grade.       */
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--logo-vao);
+      padding: var(--simbolo-respiro);
+      margin: calc(-1 * var(--simbolo-respiro));
+      color: var(--cor-texto); /* pinta o chevron 1 e a palavra */
+      text-decoration: none;
+      border-radius: var(--raio);
+    }
+    .logo:focus-visible { outline-offset: calc(-1 * var(--foco-largura)); } /* anel dentro do respiro, sem encostar na borda da tela */
+    .logo__simbolo {
+      display: block;
+      flex: none;
+      height: var(--simbolo-altura);
+      width: calc(var(--simbolo-altura) * 32.67 / 28);
+    }
+    .logo__simbolo polygon:first-child { fill-opacity: var(--simbolo-opacidade-1); }
+    .logo__simbolo polygon:last-child  { fill: var(--simbolo-cor-2); }
+    .logo__palavra {
+      font-family: var(--fonte-display);
+      font-weight: var(--logo-peso);
+      font-size: var(--logo-palavra-tamanho);
+      letter-spacing: var(--logo-espacamento);
+      line-height: 1; /* com centralização flex, reproduz o alinhamento da arte */
+    }
+
+    /* ── Botões ──────────────────────────────────────────── */
+    .botao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 2.75rem; /* 44px de área de toque */
+      padding: 0.75rem 1.25rem;
+      border: 2px solid transparent;
+      border-radius: var(--raio);
+      font-family: var(--fonte-texto);
+      font-size: var(--botao-tamanho);
+      font-weight: var(--botao-peso);
+      line-height: 1.2;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color var(--transicao), border-color var(--transicao), color var(--transicao);
+    }
+    .botao--primario {
+      background: var(--azul-vetor);
+      color: var(--vidro); /* 4,0:1; no hover, sobre Azul Profundo, 6,0:1 */
+    }
+    .botao--primario:hover,
+    .botao--primario:active {
+      background: var(--azul-profundo);
+    }
+    .botao--secundario {
+      background: transparent;
+      border-color: var(--cor-borda-forte);
+      color: var(--cor-texto);
+    }
+    .botao--secundario:hover,
+    .botao--secundario:active {
+      border-color: var(--cor-texto);
+      background: var(--cor-borda);
+    }
+    /* Sobre Azul Vetor: Carvão, como na versão mono da marca sobre azul */
+    .botao--escuro {
+      background: var(--carvao);
+      color: var(--vidro); /* 16,9:1 */
+    }
+    .botao--escuro:hover,
+    .botao--escuro:active {
+      background: var(--azul-profundo);
+    }
+    .botao--grande {
+      width: 100%;
+      min-height: 3.5rem;
+      padding: 1rem 1.75rem;
+      font-size: 1.125rem;
+    }
+    @media (min-width: 30rem) {
+      .botao--grande { width: auto; }
+    }
+    .botao--compacto {
+      min-height: 2.5rem;
+      padding: 0.5rem 0.875rem;
+      font-size: 0.875rem;
+    }
+    @media (min-width: 48rem) {
+      .botao--compacto {
+        min-height: 2.75rem;
+        padding: 0.625rem 1.125rem;
+        font-size: var(--botao-tamanho);
+      }
+    }
+
+    /* ── Grupo de botões: empilhados no mobile, em linha a partir de 480px ── */
+    .acoes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    @media (min-width: 30rem) {
+      .acoes {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+
+    /* ── Rótulo: 12px, caixa alta, +0,14em ──────────────────
+       O texto fica em caixa normal no HTML (leitor de tela não soletra);
+       o traço usa a cor de destaque, que como grafismo passa em contraste. */
+    .rotulo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0 0 1.25rem;
+      font-family: var(--fonte-texto);
+      font-size: var(--rotulo-tamanho);
+      font-weight: var(--rotulo-peso);
+      letter-spacing: var(--rotulo-espacamento);
+      line-height: 1.4;
+      text-transform: uppercase;
+      color: var(--cor-destaque-texto);
+    }
+    .rotulo::before {
+      content: "";
+      flex: none;
+      width: 1.5rem;
+      height: 2px;
+      background: var(--cor-destaque);
+    }
+
+    /* ── Títulos ─────────────────────────────────────────── */
+    .display {
+      margin: 0;
+      max-width: 13em;
+      font-family: var(--fonte-display);
+      font-size: var(--display-tamanho);
+      font-weight: var(--display-peso);
+      letter-spacing: var(--display-espacamento);
+      line-height: var(--display-altura);
+      text-wrap: balance;
+    }
+    .destaque { color: var(--cor-destaque); } /* só em texto ≥ 24px: Azul Vetor sobre Carvão dá 4,2:1 */
+
+    .titulo {
+      margin: 0;
+      max-width: 20em;
+      font-family: var(--fonte-display);
+      font-size: var(--titulo-tamanho);
+      font-weight: var(--titulo-peso);
+      letter-spacing: var(--titulo-espacamento);
+      line-height: var(--titulo-altura);
+      text-wrap: balance;
+    }
+
+    .subtitulo {
+      margin: 0;
+      font-family: var(--fonte-display);
+      font-size: var(--subtitulo-tamanho);
+      font-weight: var(--subtitulo-peso);
+      letter-spacing: var(--subtitulo-espacamento);
+      line-height: var(--subtitulo-altura);
+    }
+
+    /* Parágrafo de abertura de seção */
+    .intro {
+      max-width: var(--medida-texto);
+      margin: 1rem 0 0;
+      color: var(--cor-texto-sec);
+      text-wrap: pretty;
+    }
+
+    /* Etiqueta de estado: mesma tipografia do rótulo, com marcador cheio ou vazio */
+    .etiqueta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+      font-family: var(--fonte-texto);
+      font-size: var(--rotulo-tamanho);
+      font-weight: var(--rotulo-peso);
+      letter-spacing: var(--rotulo-espacamento);
+      line-height: 1.4;
+      text-transform: uppercase;
+      color: var(--cor-texto-sec);
+    }
+    .etiqueta::before {
+      content: "";
+      flex: none;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+    }
+    .etiqueta--cheia::before { background: currentColor; }
+    .etiqueta--vazia::before { border: 1.5px solid currentColor; }
+
+    /* Todo número, KPI e dado */
+    .dado {
+      font-family: var(--fonte-dado);
+      font-weight: var(--dado-peso);
+    }
+
+    /* =========================================================
+       1. TOPO FIXO
+       ========================================================= */
+    .topo {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+    .topo__conteudo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: var(--altura-topo);
+    }
+
+    /* =========================================================
+       2. DOBRA INICIAL
+       ========================================================= */
+    .dobra__apoio {
+      max-width: var(--medida-texto);
+      margin: 1.5rem 0 0;
+      color: var(--cor-texto-sec);
+      text-wrap: pretty;
+    }
+    .dobra .acoes { margin-top: 2rem; }
+
+    @media (min-width: 48rem) {
+      .dobra { padding-block: calc(var(--secao-espaco) * 1.25); }
+      .dobra__apoio { margin-top: 2rem; }
+      .dobra .acoes { margin-top: 2.5rem; }
+    }
+
+    /* =========================================================
+       3. A DOR — ciclo de 5 passos
+       ========================================================= */
+    .dor {
+      --ciclo-vao:   0.75rem;  /* espaço entre cartões = comprimento do conector */
+      --ciclo-pad:   1.25rem;
+      --marcador-l:  2.5rem;
+      --marcador-a:  1.75rem;
+    }
+
+    .ciclo {
+      display: grid;
+      gap: var(--ciclo-vao);
+      max-width: 36rem;
+      margin: 2.5rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .ciclo__passo {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: var(--ciclo-pad);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--raio);
+    }
+
+    /* Conector: liga o marcador de um passo ao do próximo (vertical no mobile) */
+    .ciclo__passo + .ciclo__passo::before {
+      content: "";
+      position: absolute;
+      left: calc(var(--ciclo-pad) + var(--marcador-l) / 2 - 1px);
+      top: calc(-1px - var(--ciclo-vao));
+      width: 2px;
+      height: var(--ciclo-vao);
+      background: var(--azul-vetor);
+    }
+
+    .ciclo__num {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: var(--marcador-l);
+      height: var(--marcador-a);
+      border-radius: var(--raio);
+      background: var(--azul-nevoa);
+      color: var(--azul-profundo); /* 5,7:1 sobre Névoa */
+      font-family: var(--fonte-dado);
+      font-weight: var(--dado-peso);
+      font-size: 0.875rem;
+    }
+
+    /* Fecho do ciclo: tracejado = volta ao começo */
+    /* Ícone centrado na coluna dos marcadores; texto alinhado aos nomes dos passos */
+    .ciclo__volta {
+      --icone: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: calc(var(--marcador-l) / 2 + 1rem - var(--icone) / 2);
+      max-width: 36rem;
+      margin: var(--ciclo-vao) 0 0;
+      padding: 1rem var(--ciclo-pad) 1rem calc(var(--ciclo-pad) + var(--marcador-l) / 2 - var(--icone) / 2);
+      border: 1px dashed var(--cor-borda-forte);
+      border-radius: var(--raio);
+      color: var(--cor-texto-sec);
+    }
+    .ciclo__volta svg {
+      flex: none;
+      width: var(--icone);
+      height: var(--icone);
+    }
+
+    /* Resultado: 2 × 12 = 24 */
+    .dor__resultado {
+      margin: 3rem 0 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--cor-borda);
+    }
+    .dor__conta,
+    .dor__total,
+    .dor__legenda { display: block; }
+    .dor__conta {
+      font-family: var(--fonte-dado);
+      font-weight: var(--dado-peso);
+      color: var(--cor-texto-sec);
+    }
+    .dor__total {
+      margin-top: 0.25rem;
+      font-family: var(--fonte-dado);
+      font-weight: var(--dado-peso);
+      font-size: 1.5rem;            /* 24px: texto grande, Azul Vetor sobre Vidro (4,0:1) passa */
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--cor-destaque);
+    }
+    .dor__numero {
+      font-size: 4rem;
+      letter-spacing: -0.04em;
+    }
+    .dor__legenda {
+      margin-top: 0.75rem;
+      color: var(--cor-texto-sec);
+    }
+
+    @media (min-width: 64rem) {
+      .ciclo {
+        grid-template-columns: repeat(5, 1fr);
+        max-width: none;
+      }
+      .ciclo__passo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+      /* Conector horizontal, na altura dos marcadores */
+      .ciclo__passo + .ciclo__passo::before {
+        left: calc(-1px - var(--ciclo-vao));
+        top: calc(var(--ciclo-pad) + var(--marcador-a) / 2 - 1px);
+        width: var(--ciclo-vao);
+        height: 2px;
+      }
+      .ciclo__volta { max-width: none; }
+    }
+
+    /* =========================================================
+       4. POR QUE NÃO É A FERRAMENTA — a laje entregue e o que fica embaixo
+       ========================================================= */
+    .camadas {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 2.5rem;
+    }
+    .camadas__base {
+      display: grid;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .camada {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.25rem;
+      border-radius: var(--raio);
+    }
+    .camada p { margin: 0; }
+    .camada .etiqueta { margin-bottom: 0.5rem; }
+    .camada__texto { color: var(--cor-texto-sec); }
+
+    /* Entregue: bloco em Azul Vetor (herda os papéis de .tema-azul) */
+    .camada--sem-dono {
+      border: 2px dashed var(--cor-borda-forte); /* Linha sobre Carvão: 14:1 */
+    }
+
+    @media (min-width: 48rem) {
+      .camada { padding: 1.5rem; }
+      .camada--entregue { padding: 2rem; }
+      .camadas__base { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* =========================================================
+       5. O QUE ENTRA NO AMBIENTE — grade aberta de 6 itens
+       ========================================================= */
+    .recursos {
+      display: grid;
+      gap: 2rem;
+      margin: 2.5rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    /* Mobile: ícone ao lado do título (lista mais curta). Desktop: ícone acima. */
+    .recurso {
+      display: grid;
+      grid-template-columns: 1.75rem 1fr;
+      column-gap: 1rem;
+      align-items: start;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--cor-borda);
+    }
+    .recurso__icone {
+      display: block;
+      width: 1.75rem;
+      height: 1.75rem;
+      margin-top: 0.0625rem; /* centra na primeira linha do título (30px) */
+      color: var(--cor-destaque); /* grafismo: Azul Vetor sobre Vidro 4,0:1 */
+    }
+    .recurso p {
+      grid-column: 2;
+      margin: 0.5rem 0 0;
+      color: var(--cor-texto-sec);
+      text-wrap: pretty; /* evita palavra sozinha na última linha */
+    }
+
+    @media (min-width: 48rem) {
+      .recursos { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 2rem; }
+      .recurso { display: block; }
+      .recurso__icone { margin: 0 0 1rem; }
+    }
+    @media (min-width: 64rem) {
+      .recursos { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* =========================================================
+       6. COMO FUNCIONA — 4 passos; no desktop viram uma escada
+       ========================================================= */
+    .metodo {
+      display: grid;
+      margin: 2.5rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .passo {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      column-gap: 1rem;
+      align-items: baseline;
+      padding-block: 1.5rem;
+      border-top: 1px solid var(--cor-borda);
+    }
+    .passo:last-child { border-bottom: 1px solid var(--cor-borda); }
+    .passo__num {
+      font-family: var(--fonte-dado); /* na mesma linha de grade do título: alinham pela linha de base */
+      font-weight: var(--dado-peso);
+      font-size: 3rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--cor-destaque); /* Azul Vetor sobre Carvão 4,2:1 — número de 48px */
+    }
+    .passo p {
+      grid-column: 2;
+      margin: 0.5rem 0 0;
+      color: var(--cor-texto-sec);
+      text-wrap: pretty;
+    }
+
+    /* Frase de fecho */
+    .metodo__fecho {
+      max-width: 20em;
+      margin: 3rem 0 0;
+      font-family: var(--fonte-display);
+      font-size: var(--titulo-tamanho);
+      font-weight: var(--titulo-peso);
+      letter-spacing: var(--titulo-espacamento);
+      line-height: var(--titulo-altura);
+      text-wrap: balance;
+    }
+
+    @media (min-width: 64rem) {
+      /* Escada: cada passo sobe um degrau. Piso = borda de cima; espelho = ::before */
+      .metodo {
+        --degrau: 2rem;
+        --linha-escada: 2px;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: start;
+      }
+      .passo {
+        position: relative;
+        display: block;
+        margin-top: calc(var(--abaixo) * var(--degrau));
+        padding: 1.5rem 1.5rem 0;
+        border-top: var(--linha-escada) solid var(--azul-vetor);
+      }
+      .passo:last-child { border-bottom: 0; }
+      .passo:nth-child(1) { --abaixo: 3; padding-left: 0; }
+      .passo:nth-child(2) { --abaixo: 2; }
+      .passo:nth-child(3) { --abaixo: 1; }
+      .passo:nth-child(4) { --abaixo: 0; }
+      .passo + .passo::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: calc(-1 * var(--linha-escada));
+        width: var(--linha-escada);
+        height: calc(var(--degrau) + var(--linha-escada));
+        background: var(--azul-vetor);
+      }
+      .passo__num { display: block; margin-bottom: 1.25rem; }
+      .metodo__fecho { margin-top: 4rem; }
+    }
+
+    /* =========================================================
+       7. PARA QUEM — 3 pontos de partida
+       ========================================================= */
+    .perfis {
+      display: grid;
+      gap: 0.75rem;
+      max-width: 36rem;
+      margin: 2.5rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .perfil {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem;
+      border-radius: var(--raio);
+      background: var(--azul-nevoa); /* fundo de destaque; Carvão 16:1, Aço 5,1:1, Profundo 5,7:1 */
+    }
+
+    /* Ponto de partida: segmento cheio = já existe, vazado = ainda não (decorativo) */
+    .nivel {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .nivel span {
+      width: 1.5rem;
+      height: 0.5rem;
+      border: 1.5px solid var(--azul-vetor);
+      border-radius: 2px;
+    }
+    .nivel .nivel__cheio { background: var(--azul-vetor); }
+
+    .perfil__ganho {
+      margin: auto 0 0;
+      padding-top: 1rem;
+      border-top: 1px solid var(--cor-borda);
+      text-wrap: pretty;
+    }
+    .perfil__rotulo {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: var(--rotulo-tamanho);
+      font-weight: var(--rotulo-peso);
+      letter-spacing: var(--rotulo-espacamento);
+      text-transform: uppercase;
+      color: var(--cor-destaque-texto);
+    }
+
+    @media (min-width: 64rem) {
+      /* subgrid: medidor, título e ganho ficam alinhados entre os 3 cartões */
+      .perfis {
+        grid-template-columns: repeat(3, 1fr);
+        row-gap: 0;
+        max-width: none;
+      }
+      .perfil {
+        display: grid;
+        grid-row: span 3;
+        grid-template-rows: subgrid;
+        row-gap: 1.25rem;
+        padding: 2rem;
+      }
+      .perfil__ganho { margin: 0; }
+    }
+
+    /* =========================================================
+       8. A OFERTA — fundo Azul Vetor (.tema-azul)
+       ========================================================= */
+    .oferta__grade {
+      display: grid;
+      gap: 2.5rem;
+    }
+    .oferta .display { max-width: 9em; }
+    .oferta .intro { margin-top: 1.5rem; }
+
+    /* Ficha: Prazo / Você recebe */
+    .ficha {
+      margin: 0;
+      border-top: 1px solid var(--cor-borda);
+    }
+    .ficha__linha {
+      display: grid;
+      gap: 0.5rem;
+      padding-block: 1.25rem;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+    .ficha dt {
+      font-size: var(--rotulo-tamanho);
+      font-weight: var(--rotulo-peso);
+      letter-spacing: var(--rotulo-espacamento);
+      line-height: 1.4;
+      text-transform: uppercase;
+      color: var(--cor-texto-sec);
+    }
+    .ficha dd { margin: 0; }
+    .ficha__prazo {
+      font-family: var(--fonte-dado);
+      font-weight: var(--dado-peso);
+      font-size: 1.5rem; /* 24px: texto grande */
+      line-height: 1.25;
+    }
+
+    .entregaveis {
+      display: grid;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .entregaveis li {
+      display: grid;
+      grid-template-columns: 1.5rem 1fr;
+      column-gap: 0.75rem;
+      align-items: start;
+    }
+    .entregaveis svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-top: 0.1875rem; /* centra na primeira linha do subtítulo (30px) */
+    }
+
+    .oferta__acao { margin-top: 2rem; }
+    .oferta__nota {
+      margin: 0.75rem 0 0;
+      font-size: 0.875rem;
+      color: var(--cor-texto-sec);
+    }
+
+    @media (min-width: 48rem) {
+      .ficha__linha {
+        grid-template-columns: 8rem 1fr;
+        column-gap: 1.5rem;
+        align-items: baseline;
+      }
+    }
+    @media (min-width: 64rem) {
+      .oferta__grade {
+        grid-template-columns: 5fr 7fr;
+        column-gap: 4rem;
+        align-items: start;
+      }
+    }
+
+    /* =========================================================
+       9. RODAPÉ — discreto
+       ========================================================= */
+    .rodape { padding-block: 3rem; }
+    .rodape__conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .rodape__info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.875rem;
+      color: var(--cor-texto-sec);
+    }
+    .rodape__info p { margin: 0; }
+    .rodape__link {
+      display: inline-block;
+      padding-block: 0.25rem; /* área de toque ≥ 24px */
+      color: var(--cor-texto);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+    .rodape__link:hover { color: var(--cor-destaque-texto); }
+
+    @media (min-width: 48rem) {
+      .rodape__conteudo {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .rodape__info {
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+      }
+    }  </style>
+</head>
+
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- 1. TOPO FIXO -->
+  <header class="topo tema-escuro">
+    <div class="container topo__conteudo">
+      <a class="logo" href="#inicio">
+        <svg class="logo__simbolo" width="33" height="28" viewBox="0 0 32.7 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polygon points="0.00,0.00 8.17,0.00 18.66,14.00 8.17,28.00 0.00,28.00 10.49,14.00" fill="currentColor"/>
+          <polygon points="14.01,0.00 22.18,0.00 32.67,14.00 22.18,28.00 14.01,28.00 24.50,14.00" fill="#2F6BFF"/>
+        </svg>
+        <span class="logo__palavra">Vigtos</span>
+      </a>
+
+      <a class="botao botao--primario botao--compacto" href="#diagnostico"
+         data-whatsapp="Olá! Vim pelo site e quero falar com a Vigtos sobre a plataforma de dados.">Falar com a Vigtos</a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <!-- 2. DOBRA INICIAL — Carvão -->
+    <section class="secao dobra tema-escuro" id="inicio" aria-labelledby="inicio-titulo">
+      <div class="container">
+        <p class="rotulo">Plataforma de dados white label</p>
+
+        <h1 class="display" id="inicio-titulo">
+          A estrutura de dados da sua empresa&nbsp;— <span class="destaque">com a sua marca.</span>
+        </h1>
+
+        <p class="dobra__apoio">
+          Base unificada, painéis de KPI, análises por pergunta, envio automático e consulta
+          pelo WhatsApp. O cliente usa com a marca dele; a Vigtos sustenta a tecnologia.
+        </p>
+
+        <div class="acoes">
+          <a class="botao botao--primario" href="#diagnostico">Quero um diagnóstico</a>
+          <a class="botao botao--secundario" href="#como-funciona">Ver como funciona</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. A DOR — Vidro -->
+    <section class="secao dor tema-claro" id="dor" aria-labelledby="dor-titulo">
+      <div class="container">
+        <h2 class="titulo" id="dor-titulo">Dois dias por mês para refazer o mesmo relatório.</h2>
+        <p class="intro">
+          O problema não é o relatório. É o caminho até ele, refeito à mão a cada fechamento:
+        </p>
+
+        <!-- role="list" mantém a semântica de lista no Safari com list-style: none -->
+        <ol class="ciclo" role="list">
+          <li class="ciclo__passo"><span class="ciclo__num" aria-hidden="true">01</span><span class="subtitulo">Exporta do ERP</span></li>
+          <li class="ciclo__passo"><span class="ciclo__num" aria-hidden="true">02</span><span class="subtitulo">Cola na planilha</span></li>
+          <li class="ciclo__passo"><span class="ciclo__num" aria-hidden="true">03</span><span class="subtitulo">Ajusta na mão</span></li>
+          <li class="ciclo__passo"><span class="ciclo__num" aria-hidden="true">04</span><span class="subtitulo">Confere de novo</span></li>
+          <li class="ciclo__passo"><span class="ciclo__num" aria-hidden="true">05</span><span class="subtitulo">Manda por <span class="sem-quebra">e-mail</span></span></li>
+        </ol>
+
+        <p class="ciclo__volta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 12a8 8 0 1 0 2.34-5.66L4 8.7"/>
+            <path d="M4 3.7v5h5"/>
+          </svg>
+          <span>E no mês seguinte, tudo de novo, a partir do <span class="dado">01</span>.</span>
+        </p>
+
+        <p class="dor__resultado">
+          <span class="dor__conta">2 dias por mês × 12 meses =</span>
+          <strong class="dor__total"><span class="dor__numero">24</span> dias por ano</strong>
+          <span class="dor__legenda">refazendo um relatório que já existia.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 4. POR QUE NÃO É A FERRAMENTA — Carvão -->
+    <section class="secao tema-escuro" id="ferramenta" aria-labelledby="ferramenta-titulo">
+      <div class="container">
+        <h2 class="titulo" id="ferramenta-titulo">Ter BI não resolve o que está embaixo.</h2>
+        <p class="intro">
+          A ferramenta entrega o painel. O que sustenta o painel costuma ficar sem
+          responsável&nbsp;— e o relatório volta para a planilha.
+        </p>
+
+        <div class="camadas">
+          <div class="camada camada--entregue tema-azul">
+            <p class="etiqueta etiqueta--cheia">Entregue</p>
+            <h3 class="subtitulo">O dashboard</h3>
+            <p class="camada__texto">É o que a ferramenta de BI entrega: a tela, os gráficos, a licença.</p>
+          </div>
+
+          <ul class="camadas__base" role="list">
+            <li class="camada camada--sem-dono">
+              <p class="etiqueta etiqueta--vazia">Sem dono</p>
+              <h3 class="subtitulo">Estruturar a base</h3>
+              <p class="camada__texto">Juntar ERP, bancos e planilhas com as mesmas chaves e o mesmo período.</p>
+            </li>
+            <li class="camada camada--sem-dono">
+              <p class="etiqueta etiqueta--vazia">Sem dono</p>
+              <h3 class="subtitulo">Manter as integrações</h3>
+              <p class="camada__texto">Quando o ERP muda um campo, alguém precisa perceber e ajustar a carga.</p>
+            </li>
+            <li class="camada camada--sem-dono">
+              <p class="etiqueta etiqueta--vazia">Sem dono</p>
+              <h3 class="subtitulo">Treinar quem monta relatório</h3>
+              <p class="camada__texto">Sem isso, o painel vira mais um lugar de onde se exporta para a planilha.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. O QUE ENTRA NO AMBIENTE — Vidro -->
+    <section class="secao tema-claro" id="ambiente" aria-labelledby="ambiente-titulo">
+      <div class="container">
+        <h2 class="titulo" id="ambiente-titulo">O que entra no ambiente</h2>
+
+        <!-- Ícones: traço 2px em currentColor, decorativos (aria-hidden) -->
+        <ul class="recursos" role="list">
+          <li class="recurso">
+            <svg class="recurso__icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <ellipse cx="12" cy="5" rx="8" ry="3"/>
+              <path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
+              <path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/>
+            </svg>
+            <h3 class="subtitulo">Base unificada</h3>
+            <p>ERP, bancos e planilhas num modelo só.</p>
+          </li>
+          <li class="recurso">
+            <svg class="recurso__icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M8 17v-4M12 17V7M16 17v-7"/>
+            </svg>
+            <h3 class="subtitulo">Painéis de KPI</h3>
+            <p>Tela pronta por área, com exportação.</p>
+          </li>
+          <li class="recurso">
+            <svg class="recurso__icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 0 1-13.1 8L3 21l1-4.9A9 9 0 1 1 21 12z"/>
+              <path d="M9.7 9.4a2.4 2.4 0 0 1 4.6.9c0 1.6-2.3 2.1-2.3 3.4"/>
+              <path d="M12 16.8h.01"/>
+            </svg>
+            <h3 class="subtitulo">Análise por pergunta</h3>
+            <p>Pergunta em linguagem natural, resposta em tabela e gráfico.</p>
+          </li>
+          <li class="recurso">
+            <svg class="recurso__icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <path d="m3 7 9 6 9-6"/>
+            </svg>
+            <h3 class="subtitulo">Envio automático</h3>
+            <p>O que foi aprovado vira rotina por <span class="sem-quebra">e-mail</span>.</p>
+          </li>
+          <li class="recurso">
+            <svg class="recurso__icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3v12"/>
+              <path d="m7 10 5 5 5-5"/>
+              <path d="M5 21h14"/>
+            </svg>
+            <h3 class="subtitulo">Exportação</h3>
+            <p>PDF do painel, Excel e CSV da base.</p>
+          </li>
+          <li class="recurso">
+            <svg class="recurso__icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="6" y="2" width="12" height="20" rx="2"/>
+              <path d="M11 18h2"/>
+            </svg>
+            <h3 class="subtitulo">Canal WhatsApp</h3>
+            <p>Consulta rápida para quem não abre dashboard.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6. COMO FUNCIONA — Carvão (destino do botão "Ver como funciona") -->
+    <section class="secao tema-escuro" id="como-funciona" aria-labelledby="como-funciona-titulo">
+      <div class="container">
+        <h2 class="titulo" id="como-funciona-titulo">Como funciona</h2>
+        <p class="intro">Quatro passos, sempre nesta ordem.</p>
+
+        <ol class="metodo" role="list">
+          <li class="passo">
+            <span class="passo__num" aria-hidden="true">1</span>
+            <h3 class="subtitulo">Conectar as fontes</h3>
+            <p>Leitura apenas, sem mexer em nada.</p>
+          </li>
+          <li class="passo">
+            <span class="passo__num" aria-hidden="true">2</span>
+            <h3 class="subtitulo">Padronizar as chaves</h3>
+            <p>Unidade, período, centro de custo.</p>
+          </li>
+          <li class="passo">
+            <span class="passo__num" aria-hidden="true">3</span>
+            <h3 class="subtitulo">Montar <span class="dado">3</span> painéis</h3>
+            <p>Os que respondem às perguntas que mais aparecem.</p>
+          </li>
+          <li class="passo">
+            <span class="passo__num" aria-hidden="true">4</span>
+            <h3 class="subtitulo">Abrir os canais</h3>
+            <p>Exportação, envio automático, WhatsApp.</p>
+          </li>
+        </ol>
+
+        <p class="metodo__fecho">
+          A maioria dos projetos morre porque começa pelo <span class="destaque">passo&nbsp;<span class="dado">4</span></span>.
+        </p>
+      </div>
+    </section>
+
+    <!-- 7. PARA QUEM — Vidro -->
+    <section class="secao tema-claro" id="para-quem" aria-labelledby="para-quem-titulo">
+      <div class="container">
+        <h2 class="titulo" id="para-quem-titulo">Para quem</h2>
+        <p class="intro">Três pontos de partida, o mesmo método.</p>
+
+        <ul class="perfis" role="list">
+          <li class="perfil">
+            <span class="nivel" aria-hidden="true"><span class="nivel__cheio"></span><span></span><span></span></span>
+            <h3 class="subtitulo">Sem base estruturada</h3>
+            <p class="perfil__ganho">
+              <span class="perfil__rotulo">Ganho</span>
+              Começa pela base certa, antes de a planilha virar o sistema.
+            </p>
+          </li>
+          <li class="perfil">
+            <span class="nivel" aria-hidden="true"><span class="nivel__cheio"></span><span class="nivel__cheio"></span><span></span></span>
+            <h3 class="subtitulo">ERP em uso com dados dispersos</h3>
+            <p class="perfil__ganho">
+              <span class="perfil__rotulo">Ganho</span>
+              Um modelo só para ERP, bancos e planilhas; o número deixa de ser conferido à mão.
+            </p>
+          </li>
+          <li class="perfil">
+            <span class="nivel" aria-hidden="true"><span class="nivel__cheio"></span><span class="nivel__cheio"></span><span class="nivel__cheio"></span></span>
+            <h3 class="subtitulo">ERP e BI consolidados</h3>
+            <p class="perfil__ganho">
+              <span class="perfil__rotulo">Ganho</span>
+              A base ganha dono e o dado chega a quem não abre dashboard.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 8. A OFERTA — Azul Vetor (destino do botão "Quero um diagnóstico") -->
+    <section class="secao oferta tema-azul" id="diagnostico" aria-labelledby="diagnostico-titulo">
+      <div class="container oferta__grade">
+        <div>
+          <p class="rotulo">Vagas abertas</p>
+          <h2 class="display" id="diagnostico-titulo">Diagnóstico de dados</h2>
+          <p class="intro">Veja a estrutura funcionando com o seu dado real antes de decidir a implantação.</p>
+        </div>
+
+        <div>
+          <dl class="ficha">
+            <div class="ficha__linha">
+              <dt>Prazo</dt>
+              <dd class="ficha__prazo">2 semanas</dd>
+            </div>
+            <div class="ficha__linha">
+              <dt>Você recebe</dt>
+              <dd>
+                <ul class="entregaveis" role="list">
+                  <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                    <span class="subtitulo">Mapa das suas fontes</span>
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                    <span class="subtitulo"><span class="dado">3</span> painéis montados com o seu dado real</span>
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                    <span class="subtitulo">Escopo e investimento da implantação</span>
+                  </li>
+                </ul>
+              </dd>
+            </div>
+          </dl>
+
+          <div class="oferta__acao">
+            <!-- Sem JavaScript, cai no e-mail (troque aqui também se mudar o endereço do rodapé) -->
+            <a class="botao botao--escuro botao--grande"
+               href="mailto:contato@vigtos.com.br?subject=Diagn%C3%B3stico%20de%20dados"
+               data-whatsapp="Olá! Quero agendar o Diagnóstico de dados da Vigtos (2 semanas). Pode me passar os próximos passos?">Quero meu diagnóstico</a>
+            <p class="oferta__nota">Abre uma conversa no WhatsApp com a mensagem pronta.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 9. RODAPÉ — Carvão -->
+  <footer class="rodape tema-escuro">
+    <div class="container rodape__conteudo">
+      <div class="logo">
+        <svg class="logo__simbolo" width="33" height="28" viewBox="0 0 32.7 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polygon points="0.00,0.00 8.17,0.00 18.66,14.00 8.17,28.00 0.00,28.00 10.49,14.00" fill="currentColor"/>
+          <polygon points="14.01,0.00 22.18,0.00 32.67,14.00 22.18,28.00 14.01,28.00 24.50,14.00" fill="#2F6BFF"/>
+        </svg>
+        <span class="logo__palavra">Vigtos</span>
+      </div>
+
+      <div class="rodape__info">
+        <!-- E-mail de contato: troque aqui e no mailto do botão da oferta -->
+        <a class="rodape__link" href="mailto:contato@vigtos.com.br">contato@vigtos.com.br</a>
+        <p>© <span class="dado" data-ano>2026</span> Vigtos</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ===== CONTATO — troque o número só aqui =====
+       55 + DDD + número, só dígitos. Ex.: 5511912345678 */
+    const WHATSAPP = '55DDDNUMERO';
+
+    /* Todo link com data-whatsapp="mensagem" vira https://wa.me/NUMERO?text=mensagem.
+       Sem JavaScript, o href original do HTML continua valendo (âncora para a oferta). */
+    document.querySelectorAll('[data-whatsapp]').forEach((link) => {
+      link.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(link.dataset.whatsapp);
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.insertAdjacentHTML('beforeend', '<span class="sr-only"> (abre o WhatsApp)</span>');
+    });
+
+    /* Ano do rodapé sempre atual (o HTML traz 2026 como reserva) */
+    document.querySelectorAll('[data-ano]').forEach((el) => {
+      el.textContent = new Date().getFullYear();
+    });
+  </script>
+
+  <!--
+    CLOUDFLARE WEB ANALYTICS (desligado)
+    1. Em dash.cloudflare.com, abra Analytics & Logs > Web Analytics > Add a site
+       e informe o domínio (vigtos.com.br).
+    2. Copie o token que aparece no trecho gerado.
+    3. Cole o token no lugar de SEU_TOKEN_AQUI na linha abaixo.
+    4. Tire a linha de dentro deste comentário (mova-a para fora, logo acima de </body>).
+
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "SEU_TOKEN_AQUI"}'></script>
+  -->
+</body>
+</html>
