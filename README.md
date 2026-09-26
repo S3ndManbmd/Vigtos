@@ -14,9 +14,9 @@ Página única e estática: `index.html` com CSS e JS embutidos. Sem build, sem 
 
 1. **E-mail (desligado)** — o e-mail do rodapé está comentado no `index.html`. Para religar, busque por `contato@`,
    troque o endereço e tire a linha do comentário.
-2. **Endereço público** — as tags `canonical`, `og:url` e `og:image` apontam para `https://vigtos.com.br/`.
-   Enquanto o domínio não estiver ativo, troque pelo endereço do GitHub Pages
-   (`https://USUARIO.github.io/REPOSITORIO/`). O `og:image` precisa de URL absoluta, senão o LinkedIn não mostra a imagem.
+2. **Endereço público** — as tags `canonical`, `og:url` e `og:image` apontam hoje para o GitHub Pages,
+   `https://s3ndmanbmd.github.io/Vigtos/`. Quando o domínio estiver ativo, troque para `https://vigtos.com.br/`
+   (passo 4 de "Domínio próprio"). O `og:image` precisa de URL absoluta, senão o LinkedIn não mostra a imagem.
 3. **Formulário (Web3Forms, gratuito)** — em [web3forms.com](https://web3forms.com), informe o e-mail que vai
    receber os pedidos; a chave de acesso chega nesse e-mail. No `index.html`, troque `SUA_CHAVE_WEB3FORMS`
    (busque por esse texto) pela chave. A chave pode ficar pública no HTML — ela só permite *enviar* para o seu e-mail.
